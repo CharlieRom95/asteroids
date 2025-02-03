@@ -3,7 +3,7 @@
 # throughout this file
 import pygame
 from constants import *
-
+from player import Player
 
 def main():
 
@@ -12,6 +12,7 @@ def main():
 
     clock = pygame.time.Clock()
     dt = 0
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     i = 0
 
@@ -21,7 +22,7 @@ def main():
                 return
         screen.fill((0, 0, 0))
         i += 1
-
+        player.draw(screen)
 
         Δ = clock.tick(60)
         dt = Δ / 1000
