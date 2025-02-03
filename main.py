@@ -21,11 +21,13 @@ def main():
             if event.type == pygame.QUIT:
                 return
         screen.fill((0, 0, 0))
-        i += 1
-        player.draw(screen)
-
+        
         Δ = clock.tick(60)
         dt = Δ / 1000
+        player.update(dt)
+        player.draw(screen)
+
+        i += 1
         pygame.display.flip()
 
 
