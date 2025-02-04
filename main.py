@@ -4,6 +4,8 @@
 import pygame
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import *
 
 def main():
 
@@ -12,37 +14,41 @@ def main():
 
     clock = pygame.time.Clock()
     dt = 0
+    
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = (updatable)
+
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    campo = AsteroidField()
 
-    i = 0
+    running = True
 
-    while i < float('inf'):
+    while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
+                running = False
         screen.fill((0, 0, 0))
         
         Δ = clock.tick(60)
         dt = Δ / 1000
-        player.update(dt)
-        player.draw(screen)
+        updatable.update(dt)
 
-        i += 1
+        for thing in asteroids:
+            if thing.collisions(player):
+                print("Game over!")
+                sys.exit("Game over!")
+
+        for thing in drawable:
+            thing.draw(screen)
+
         pygame.display.flip()
 
 
     
-
-
-
-
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
     main()
